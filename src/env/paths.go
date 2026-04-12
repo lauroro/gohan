@@ -3,6 +3,8 @@
 
 package env
 
+import "path/filepath"
+
 type Paths struct {
 	ConfigFile         string
 	CurrentPaletteFile string
@@ -26,14 +28,15 @@ type Paths struct {
 // predictable for use in tests and dependency injection scenarios.
 func BuildPaths() Paths {
 	home := env("HOME", "")
-	xdgConfigDir := env("XDG_CONFIG_HOME", home+"/.config")
-	xdgStateDir := env("XDG_STATE_HOME", home+"/.local/state")
 
-	gohanDir := xdgConfigDir + "/gohan"
+	xdgConfigDir := env("XDG_CONFIG_HOME", filepath.Join(home, ".config"))
+	xdgStateDir := env("XDG_STATE_HOME", filepath.Join(home, ".local", "state"))
+
+	gohanDir := filepath.Join(xdgConfigDir, "gohan")
 
 	return Paths{
-		ConfigFile:         gohanDir + "/config.yaml",
-		CurrentPaletteFile: xdgStateDir + "/gohan/current.yaml",
-		PalettesDir:        gohanDir + "/palettes",
+		ConfigFile:         filepath.Join(gohanDir, "config.yaml"),
+		CurrentPaletteFile: filepath.Join(xdgStateDir, "gohan", "current.yaml"),
+		PalettesDir:        filepath.Join(gohanDir, "palettes"),
 	}
 }
