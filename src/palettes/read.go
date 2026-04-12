@@ -9,9 +9,9 @@ import (
 	"gohan/src/tools"
 )
 
-// ReadPaletteFile reads a palette file from the given path.
+// readPaletteFile reads a palette file from the given path.
 // It return the file content as a string or an error if the file cannot be read.
-func ReadPaletteFile(path string) (string, error) {
+func readPaletteFile(path string) (string, error) {
 	content, err := tools.ReadFile(path)
 	if err != nil {
 		return "", fmt.Errorf("could not read palette file %s: %w", path, err)
