@@ -5,24 +5,15 @@ package env
 
 import (
 	"os"
-	"sync"
 	"testing"
 )
 
-func resetPaths() {
-	paths = Paths{}
-	once = sync.Once{}
-}
+func TestBuildPaths_WithAllEnvVars(t *testing.T) {
+	t.Setenv("HOME", "/home/test")
+	t.Setenv("XDG_CONFIG_HOME", "/custom/config")
+	t.Setenv("XDG_STATE_HOME", "/custom/state")
 
-func TestGetPaths_WithAllEnvVars(t *testing.T) {
-	resetPaths()
-
-	os.Setenv("HOME", "/home/test")
-	os.Setenv("XDG_CONFIG_HOME", "/custom/config")
-	os.Setenv("XDG_STATE_HOME", "/custom/state")
-	defer os.Clearenv()
-
-	result := GetPaths()
+	result := BuildPaths()
 
 	if result.ConfigFile != "/custom/config/gohan/config.yaml" {
 		t.Errorf("unexpected ConfigFile: %s", result.ConfigFile)
@@ -37,15 +28,13 @@ func TestGetPaths_WithAllEnvVars(t *testing.T) {
 	}
 }
 
-func TestGetPaths_WithFallbacks(t *testing.T) {
-	resetPaths()
+func TestBuildPaths_WithFallbacks(t *testing.T) {
+	t.Setenv("HOME", "/home/test")
 
-	os.Setenv("HOME", "/home/test")
 	os.Unsetenv("XDG_CONFIG_HOME")
 	os.Unsetenv("XDG_STATE_HOME")
-	defer os.Clearenv()
 
-	result := GetPaths()
+	result := BuildPaths()
 
 	if result.ConfigFile != "/home/test/.config/gohan/config.yaml" {
 		t.Errorf("unexpected ConfigFile: %s", result.ConfigFile)
@@ -59,21 +48,17 @@ func TestGetPaths_WithFallbacks(t *testing.T) {
 		t.Errorf("unexpected PalettesDir: %s", result.PalettesDir)
 	}
 }
+func TestBuildPaths_NoCaching(t *testing.T) {
+	t.Setenv("HOME", "/home/test")
+	t.Setenv("XDG_CONFIG_HOME", "/first")
 
-func TestGetPaths_OnceBehavior(t *testing.T) {
-	resetPaths()
+	first := BuildPaths()
 
-	os.Setenv("HOME", "/home/test")
-	os.Setenv("XDG_CONFIG_HOME", "/first")
-	defer os.Clearenv()
+	t.Setenv("XDG_CONFIG_HOME", "/second")
 
-	first := GetPaths()
+	second := BuildPaths()
 
-	os.Setenv("XDG_CONFIG_HOME", "/second")
-
-	second := GetPaths()
-
-	if first != second {
-		t.Errorf("expected same result due to sync.Once")
+	if first == second {
+		t.Errorf("expected different results, got same")
 	}
 }

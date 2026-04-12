@@ -3,44 +3,37 @@
 
 package env
 
-import "sync"
-
 type Paths struct {
 	ConfigFile         string
 	CurrentPaletteFile string
 	PalettesDir        string
 }
 
-var (
-	paths Paths
-	once  sync.Once
-)
-
-// GetPaths returns application-specific filesystem paths derived from
+// BuildPaths constructs application-specific filesystem paths based on
 // environment variables following the XDG Base Directory specification.
 //
-// The paths are computed only once using sync.Once and then cached for
-// subseqeuent calls.
+// It reads:
+// - $HOME (required, assumed to be non-empty)
+// - $XDG_CONFIG_HOME (defaults to $HOME/.config if unset or empty)
+// - $XDG_STATE_HOME (defaults to $HOME/.local/state if unset or empty)
 //
-// It uses:
-// - $HOME (required, panics if missing)
-// - $XDG_CONFIG_HOME (defaults to $HOME/.config)
-// - $XDG_STATE_HOME (defaults to $HOME/.local/state)
+// The returned Paths struct contains:
+// - ConfigFile: path to the main configuration file
+// - CurrentPaletteFile: path to the currently active palette file
+// - PalettesDir: directory containing available palettes
 //
-// The returned Paths struct contains locations for the config file,
-// current palette file, and palettes directory.
-func GetPaths() Paths {
-	once.Do(func() {
-		home := env("HOME", "")
-		xdgConfigDir := env("XDG_CONFIG_HOME", home+"/.config")
-		gohanDir := xdgConfigDir + "/gohan"
-		xdgStateDir := env("XDG_STATE_HOME", home+"/.local/state")
+// This funtion is pure and does not cache results, making it safe and
+// predictable for use in tests and dependency injection scenarios.
+func BuildPaths() Paths {
+	home := env("HOME", "")
+	xdgConfigDir := env("XDG_CONFIG_HOME", home+"/.config")
+	xdgStateDir := env("XDG_STATE_HOME", home+"/.local/state")
 
-		paths = Paths{
-			ConfigFile:         gohanDir + "/config.yaml",
-			CurrentPaletteFile: xdgStateDir + "/gohan/current.yaml",
-			PalettesDir:        gohanDir + "/palettes",
-		}
-	})
-	return paths
+	gohanDir := xdgConfigDir + "/gohan"
+
+	return Paths{
+		ConfigFile:         gohanDir + "/config.yaml",
+		CurrentPaletteFile: xdgStateDir + "/gohan/current.yaml",
+		PalettesDir:        gohanDir + "/palettes",
+	}
 }
