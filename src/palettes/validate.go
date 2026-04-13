@@ -12,6 +12,7 @@ import (
 // It ensures:
 // - all 16 base colors are present
 // - all values are valid 6-char hex strings (lowercase, no '#')
+// - all values are unique (no duplicates)
 func validatePalette(p Palette) error {
 	var hexRegex = regexp.MustCompile(`^[0-9a-f]{6}$`)
 	values := map[string]string{
@@ -33,14 +34,25 @@ func validatePalette(p Palette) error {
 		"base0F": p.Base0F,
 	}
 
-	for k, v := range values {
-		if v == "" {
-			return fmt.Errorf("palette invalid: %s is empty", k)
+	seen := make(map[string]string)
+
+	for base, hex := range values {
+		if hex == "" {
+			return fmt.Errorf("invalid palette: %s is empty", base)
 		}
 
-		if !hexRegex.MatchString(v) {
-			return fmt.Errorf("palette invalid: %s has invalid hex value %q", k, v)
+		if !hexRegex.MatchString(hex) {
+			return fmt.Errorf("invalid palette: %s has invalid hex value %q", base, hex)
 		}
+
+		if prev, exists := seen[hex]; exists {
+			return fmt.Errorf(
+				"invalid palette: duplicate hex %q found in %s and %s",
+				hex, prev, base,
+			)
+		}
+
+		seen[hex] = base
 	}
 
 	return nil
