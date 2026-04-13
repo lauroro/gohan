@@ -8,13 +8,14 @@ import (
 	"regexp"
 )
 
+var hexRegex = regexp.MustCompile(`^[0-9a-f]{6}$`)
+
 // validatePalette checks that a palette is complete and valid.
 // It ensures:
 // - all 16 base colors are present
 // - all values are valid 6-char hex strings (lowercase, no '#')
 // - all values are unique (no duplicates)
 func validatePalette(p Palette) error {
-	var hexRegex = regexp.MustCompile(`^[0-9a-f]{6}$`)
 	values := map[string]string{
 		"base00": p.Base00,
 		"base01": p.Base01,
