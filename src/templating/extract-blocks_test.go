@@ -107,3 +107,41 @@ abc
 		t.Errorf("expected %q, got %q", expected, reconstructed)
 	}
 }
+
+func TestExtractBlocks_WithDifferentCommentStyles(t *testing.T) {
+	input := `// @gohan:start
+color: 000000
+// @gohan:end
+
+# @gohan:start
+color: 111111
+# @gohan:end
+
+/* @gohan:start */
+color: 222222
+/* @gohan:end */
+
+-- @gohan:start
+color: 333333
+-- @gohan:end
+`
+
+	blocks := extractBlocks(input)
+
+	if len(blocks) != 4 {
+		t.Fatalf("expected 4 blocks, got %d", len(blocks))
+	}
+
+	expectedContents := []string{
+		"\ncolor: 000000\n",
+		"\ncolor: 111111\n",
+		"\ncolor: 222222\n",
+		"\ncolor: 333333\n",
+	}
+
+	for i, expected := range expectedContents {
+		if blocks[i].Content != expected {
+			t.Errorf("block %d: expected %q, got %q", i, expected, blocks[i].Content)
+		}
+	}
+}
