@@ -6,6 +6,7 @@ package env
 import "path/filepath"
 
 type Paths struct {
+	Home               string
 	ConfigFile         string
 	CurrentPaletteFile string
 	PalettesDir        string
@@ -35,6 +36,7 @@ func BuildPaths() Paths {
 	gohanDir := filepath.Join(xdgConfigDir, "gohan")
 
 	return Paths{
+		Home:               home,
 		ConfigFile:         filepath.Join(gohanDir, "config.yaml"),
 		CurrentPaletteFile: filepath.Join(xdgStateDir, "gohan", "current.yaml"),
 		PalettesDir:        filepath.Join(gohanDir, "palettes"),
