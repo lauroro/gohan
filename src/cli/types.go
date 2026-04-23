@@ -4,9 +4,10 @@
 package cli
 
 type Command struct {
-	Name        string
-	Description string
-	ArgName     string
-	RequiredArg bool
-	Run         func(arg string) error
+	Name           string
+	Description    string
+	ArgName        string
+	ArgDescription string
+	RequiredArg    bool
+	Run            func(arg string) error
 }

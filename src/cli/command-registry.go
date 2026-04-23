@@ -7,10 +7,11 @@ import "fmt"
 
 var commands = []Command{
 	{
-		Name:        "apply",
-		Description: "Apply a palette",
-		ArgName:     "palette",
-		RequiredArg: true,
+		Name:           "apply",
+		Description:    "Apply a palette",
+		ArgName:        "palette",
+		ArgDescription: "palette name, file name without extension",
+		RequiredArg:    true,
 		Run: func(arg string) error {
 			fmt.Println("apply:", arg)
 			return nil
