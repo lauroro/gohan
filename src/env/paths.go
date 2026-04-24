@@ -21,6 +21,7 @@ type Paths struct {
 // - $XDG_STATE_HOME (defaults to $HOME/.local/state if unset or empty)
 //
 // The returned Paths struct contains:
+// - Home: path to the home directory
 // - ConfigFile: path to the main configuration file
 // - CurrentPaletteFile: path to the currently active palette file
 // - PalettesDir: directory containing available palettes

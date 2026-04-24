@@ -22,7 +22,7 @@ func writeFile(t *testing.T, path, content string) {
 func TestLoadPalette_Success(t *testing.T) {
 	dir := t.TempDir()
 
-	content := `
+	validPalette := `
 base00: "#000000"
 base01: "#111111"
 base02: "#222222"
@@ -42,7 +42,7 @@ base0F: "#ffffff"
 `
 
 	file := filepath.Join(dir, "dracula.yaml")
-	writeFile(t, file, content)
+	writeFile(t, file, validPalette)
 
 	paths := env.Paths{
 		PalettesDir: dir,
@@ -80,6 +80,72 @@ func TestLoadPalette_InvalidPalette(t *testing.T) {
 	}
 
 	_, err := LoadPalette("bad", paths)
+	if err == nil {
+		t.Fatal("expected error but got nil")
+	}
+}
+
+func TestLoadCurrentPalette_Success(t *testing.T) {
+	dir := t.TempDir()
+
+	validPalette := `
+base00: "#000000"
+base01: "#111111"
+base02: "#222222"
+base03: "#333333"
+base04: "#444444"
+base05: "#555555"
+base06: "#666666"
+base07: "#777777"
+base08: "#888888"
+base09: "#999999"
+base0A: "#aaaaaa"
+base0B: "#bbbbbb"
+base0C: "#cccccc"
+base0D: "#dddddd"
+base0E: "#eeeeee"
+base0F: "#ffffff"
+`
+
+	file := filepath.Join(dir, "current.yaml")
+	writeFile(t, file, validPalette)
+
+	paths := env.Paths{
+		CurrentPaletteFile: file,
+	}
+
+	p, err := LoadCurrentPalette(paths)
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+
+	if p.Base01 != "111111" {
+		t.Errorf("expected normalized value, got %s", p.Base01)
+	}
+}
+
+func TestLoadCurrentPalette_FileMissing(t *testing.T) {
+	paths := env.Paths{
+		CurrentPaletteFile: filepath.Join(t.TempDir(), "missing.yaml"),
+	}
+
+	_, err := LoadCurrentPalette(paths)
+	if err == nil {
+		t.Fatal("expected error but got nil")
+	}
+}
+
+func TestLoadCurrentPalette_Invalid(t *testing.T) {
+	dir := t.TempDir()
+
+	file := filepath.Join(dir, "current.yaml")
+	writeFile(t, file, `base00: "zzzzzz"`)
+
+	paths := env.Paths{
+		CurrentPaletteFile: file,
+	}
+
+	_, err := LoadCurrentPalette(paths)
 	if err == nil {
 		t.Fatal("expected error but got nil")
 	}
