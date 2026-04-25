@@ -8,14 +8,14 @@ import (
 	"strings"
 )
 
-// rebuildFile reconstructs the file by replacing the inner content of each block,
+// replaceBlocks reconstructs the file by replacing the inner content of each block,
 // while preserving markers and all surrounding text.
 //
 // It assumes:
 // - blocks are ordered by Start
 // - Start/End are valid byte indices into original
 // - Content contains the new inner content (already transformed)
-func rebuildFile(original string, blocks []block) (string, error) {
+func replaceBlocks(original string, blocks []block) (string, error) {
 	var result strings.Builder
 	last := 0
 
