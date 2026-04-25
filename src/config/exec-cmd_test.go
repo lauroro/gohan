@@ -6,7 +6,7 @@ package config
 import "testing"
 
 func TestExecCmd_Success(t *testing.T) {
-	out, err := execCmd("echo hello")
+	out, err := ExecCmd("echo hello")
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
@@ -17,7 +17,7 @@ func TestExecCmd_Success(t *testing.T) {
 }
 
 func TestExecCmd_Failure(t *testing.T) {
-	_, err := execCmd("exit 1")
+	_, err := ExecCmd("exit 1")
 
 	if err == nil {
 		t.Fatal("expected error, got nil")
@@ -25,7 +25,7 @@ func TestExecCmd_Failure(t *testing.T) {
 }
 
 func TestExecCmd_CombinedOutput(t *testing.T) {
-	out, err := execCmd("echo out && echo err 1>&2")
+	out, err := ExecCmd("echo out && echo err 1>&2")
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
@@ -36,7 +36,7 @@ func TestExecCmd_CombinedOutput(t *testing.T) {
 }
 
 func TestExecCmd_Pipe(t *testing.T) {
-	out, err := execCmd("echo hello | grep hello")
+	out, err := ExecCmd("echo hello | grep hello")
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
@@ -47,7 +47,7 @@ func TestExecCmd_Pipe(t *testing.T) {
 }
 
 func TestExecCmd_EmptyCommand(t *testing.T) {
-	out, err := execCmd("")
+	out, err := ExecCmd("")
 	if err != nil {
 		t.Fatalf("unexpected error for empty command: %v", err)
 	}
