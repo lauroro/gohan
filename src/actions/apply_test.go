@@ -103,6 +103,12 @@ targets:
 
 	out := readFile(t, targetFile)
 
+	current := readFile(t, filepath.Join(palettesDir, "current.yaml"))
+
+	if !strings.Contains(current, "123456") {
+		t.Errorf("current palette was not updated:\n%s", current)
+	}
+
 	if !strings.Contains(out, "123456") {
 		t.Errorf("palette was not applied correctly:\n%s", out)
 	}

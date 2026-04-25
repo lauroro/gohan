@@ -10,6 +10,8 @@ import (
 	"gohan/src/env"
 	"gohan/src/palettes"
 	"gohan/src/templating"
+
+	"gopkg.in/yaml.v3"
 )
 
 // Apply applies a palette to all configured targets.
@@ -42,6 +44,15 @@ func Apply(paletteName string, paths env.Paths) error {
 		if err := templating.TransformFile(t, currentPalette, newPalette); err != nil {
 			return fmt.Errorf("apply: %w", err)
 		}
+	}
+
+	newCurrentPalette, err := yaml.Marshal(newPalette)
+	if err != nil {
+		return fmt.Errorf("apply: %w", err)
+	}
+
+	if err := palettes.SaveCurrentPalette(string(newCurrentPalette), paths); err != nil {
+		return fmt.Errorf("apply: %w", err)
 	}
 
 	for _, c := range cfg.Commands {
