@@ -8,20 +8,18 @@ import (
 	"strings"
 )
 
-// rebuildFile reconstructs the file by replacing only the inner content of each block,
-// while preserving all markers and external content.
+// rebuildFile reconstructs the file by replacing the inner content of each block,
+// while preserving markers and all surrounding text.
 //
-// It assumes that block.Start and block.End refer to the original string byte indices
-// and include both markers.
-func rebuildFile(original string, blocks []block, newContents []string) (string, error) {
-	if len(blocks) != len(newContents) {
-		return "", fmt.Errorf("blocks and newContents length mismatch")
-	}
-
+// It assumes:
+// - blocks are ordered by Start
+// - Start/End are valid byte indices into original
+// - Content contains the new inner content (already transformed)
+func rebuildFile(original string, blocks []block) (string, error) {
 	var result strings.Builder
 	last := 0
 
-	for i, b := range blocks {
+	for _, b := range blocks {
 		if b.Start < last || b.End > len(original) {
 			return "", fmt.Errorf("invalid block range")
 		}
@@ -39,16 +37,16 @@ func rebuildFile(original string, blocks []block, newContents []string) (string,
 
 		startIdx += len(startMarker)
 
-		rebuilt :=
+		result.WriteString(
 			full[:startIdx] +
-				newContents[i] +
-				full[endIdx:]
-
-		result.WriteString(rebuilt)
+				b.Content +
+				full[endIdx:],
+		)
 
 		last = b.End
 	}
 
 	result.WriteString(original[last:])
+
 	return result.String(), nil
 }

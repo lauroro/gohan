@@ -14,8 +14,9 @@ after`
 
 	blocks := extractBlocks(input)
 
-	out, err := rebuildFile(input, blocks, []string{"NEW\n"})
+	blocks[0].Content = "NEW\n"
 
+	out, err := rebuildFile(input, blocks)
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
@@ -40,8 +41,10 @@ b
 
 	blocks := extractBlocks(input)
 
-	out, err := rebuildFile(input, blocks, []string{"X\n", "Y\n"})
+	blocks[0].Content = "X\n"
+	blocks[1].Content = "Y\n"
 
+	out, err := rebuildFile(input, blocks)
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
@@ -60,8 +63,9 @@ BBB`
 
 	blocks := extractBlocks(input)
 
-	out, err := rebuildFile(input, blocks, []string{"Z\n"})
+	blocks[0].Content = "Z\n"
 
+	out, err := rebuildFile(input, blocks)
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
@@ -71,28 +75,31 @@ BBB`
 	}
 }
 
-func TestRebuildFile_MismatchLength(t *testing.T) {
-	input := `// @gohan:start
-a
-// @gohan:end`
+func TestRebuildFile_InvalidRange(t *testing.T) {
+	b := block{
+		Start:   0,
+		End:     9999,
+		Content: "x",
+	}
 
-	blocks := extractBlocks(input)
-
-	_, err := rebuildFile(input, blocks, []string{})
-
+	_, err := rebuildFile("short", []block{b})
 	if err == nil {
 		t.Fatal("expected error but got nil")
 	}
 }
 
-func TestRebuildFile_InvalidRange(t *testing.T) {
-	b := block{
-		Start: 0,
-		End:   9999,
+func TestRebuildFile_InvalidMarkers(t *testing.T) {
+	input := `no markers here`
+
+	blocks := []block{
+		{
+			Start:   0,
+			End:     len(input),
+			Content: "x",
+		},
 	}
 
-	_, err := rebuildFile("short", []block{b}, []string{"x"})
-
+	_, err := rebuildFile(input, blocks)
 	if err == nil {
 		t.Fatal("expected error but got nil")
 	}
