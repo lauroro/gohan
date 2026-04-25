@@ -24,7 +24,15 @@ var commands = []Command{
 		Name:        "list",
 		Description: "List palettes",
 		Run: func(arg string) error {
-			fmt.Println("list")
+			list, err := actions.List(env.BuildPaths())
+			if err != nil {
+				return err
+			}
+
+			for _, p := range list {
+				fmt.Println(p)
+			}
+
 			return nil
 		},
 	},
