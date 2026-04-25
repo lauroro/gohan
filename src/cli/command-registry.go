@@ -3,7 +3,11 @@
 
 package cli
 
-import "fmt"
+import (
+	"fmt"
+	"gohan/src/actions"
+	"gohan/src/env"
+)
 
 var commands = []Command{
 	{
@@ -13,8 +17,7 @@ var commands = []Command{
 		ArgDescription: "palette name, file name without extension",
 		RequiredArg:    true,
 		Run: func(arg string) error {
-			fmt.Println("apply:", arg)
-			return nil
+			return actions.Apply(arg, env.BuildPaths())
 		},
 	},
 	{
