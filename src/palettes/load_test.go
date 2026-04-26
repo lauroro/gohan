@@ -48,13 +48,17 @@ base0F: "#ffffff"
 		PalettesDir: dir,
 	}
 
-	p, err := LoadPalette("dracula", paths)
+	p, raw, err := LoadPalette("dracula", paths)
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
 
 	if p.Base00 != "000000" {
 		t.Errorf("expected normalized value, got %s", p.Base00)
+	}
+
+	if raw != validPalette {
+		t.Errorf("raw content mismatch\nexpected:\n%s\ngot:\n%s", validPalette, raw)
 	}
 }
 
@@ -63,7 +67,7 @@ func TestLoadPalette_FileMissing(t *testing.T) {
 		PalettesDir: t.TempDir(),
 	}
 
-	_, err := LoadPalette("missing", paths)
+	_, _, err := LoadPalette("missing", paths)
 	if err == nil {
 		t.Fatal("expected error but got nil")
 	}
@@ -79,7 +83,7 @@ func TestLoadPalette_InvalidPalette(t *testing.T) {
 		PalettesDir: dir,
 	}
 
-	_, err := LoadPalette("bad", paths)
+	_, _, err := LoadPalette("bad", paths)
 	if err == nil {
 		t.Fatal("expected error but got nil")
 	}
@@ -114,13 +118,17 @@ base0F: "#ffffff"
 		CurrentPaletteFile: file,
 	}
 
-	p, err := LoadCurrentPalette(paths)
+	p, raw, err := LoadCurrentPalette(paths)
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
 
 	if p.Base01 != "111111" {
 		t.Errorf("expected normalized value, got %s", p.Base01)
+	}
+
+	if raw != validPalette {
+		t.Errorf("raw content mismatch\nexpected:\n%s\ngot:\n%s", validPalette, raw)
 	}
 }
 
@@ -129,7 +137,7 @@ func TestLoadCurrentPalette_FileMissing(t *testing.T) {
 		CurrentPaletteFile: filepath.Join(t.TempDir(), "missing.yaml"),
 	}
 
-	_, err := LoadCurrentPalette(paths)
+	_, _, err := LoadCurrentPalette(paths)
 	if err == nil {
 		t.Fatal("expected error but got nil")
 	}
@@ -145,7 +153,7 @@ func TestLoadCurrentPalette_Invalid(t *testing.T) {
 		CurrentPaletteFile: file,
 	}
 
-	_, err := LoadCurrentPalette(paths)
+	_, _, err := LoadCurrentPalette(paths)
 	if err == nil {
 		t.Fatal("expected error but got nil")
 	}

@@ -38,22 +38,25 @@ func loadPaletteFromContent(content string) (Palette, error) {
 // It reads the YAML file, then applies parsing, normalization,
 // and validation.
 //
-// Returns a valid Palette or an error.
-func LoadPalette(name string, paths env.Paths) (Palette, error) {
+// Returns:
+// - parsed and validated Palette
+// - raw file content
+// - error (if any)
+func LoadPalette(name string, paths env.Paths) (Palette, string, error) {
 	fileName := name + ".yaml"
 	path := filepath.Join(paths.PalettesDir, fileName)
 
 	content, err := readPaletteFile(path)
 	if err != nil {
-		return Palette{}, fmt.Errorf("could not load palette %s: %w", name, err)
+		return Palette{}, "", fmt.Errorf("could not load palette %s: %w", name, err)
 	}
 
 	p, err := loadPaletteFromContent(content)
 	if err != nil {
-		return Palette{}, fmt.Errorf("could not load palette %s: %w", name, err)
+		return Palette{}, "", fmt.Errorf("could not load palette %s: %w", name, err)
 	}
 
-	return p, nil
+	return p, content, nil
 }
 
 // LoadCurrentPalette loads the currently active palette.
@@ -61,17 +64,20 @@ func LoadPalette(name string, paths env.Paths) (Palette, error) {
 // It reads the palette from paths.CurrentPaletteFile and applies
 // the same pipeline used by LoadPalette.
 //
-// Returns the current Palette or an error.
-func LoadCurrentPalette(paths env.Paths) (Palette, error) {
+// Returns:
+// - parsed and validated Palette
+// - raw file content
+// - error (if any)
+func LoadCurrentPalette(paths env.Paths) (Palette, string, error) {
 	content, err := readPaletteFile(paths.CurrentPaletteFile)
 	if err != nil {
-		return Palette{}, fmt.Errorf("could not load current palette: %w", err)
+		return Palette{}, "", fmt.Errorf("could not load current palette: %w", err)
 	}
 
 	p, err := loadPaletteFromContent(content)
 	if err != nil {
-		return Palette{}, fmt.Errorf("could not load current palette: %w", err)
+		return Palette{}, "", fmt.Errorf("could not load current palette: %w", err)
 	}
 
-	return p, nil
+	return p, content, nil
 }
