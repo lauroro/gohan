@@ -8,6 +8,7 @@ import "fmt"
 // Run parses CLI arguments and dispatches the corresponding command.
 //
 // It supports:
+// - version printing via "--version"
 // - global help via "-h" or "--help"
 // - command lookup by name
 // - command-specific help via "<command> --help"
@@ -22,6 +23,11 @@ import "fmt"
 func Run(args []string) error {
 	if len(args) == 0 {
 		printHelp()
+		return nil
+	}
+
+	if args[0] == "--version" {
+		version()
 		return nil
 	}
 
