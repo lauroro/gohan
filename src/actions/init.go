@@ -4,9 +4,9 @@
 package actions
 
 import (
+	"codeberg.org/roro/gohan/src/env"
+	"codeberg.org/roro/gohan/src/palettes"
 	"fmt"
-	"gohan/src/env"
-	"gohan/src/palettes"
 )
 
 // Init initializes the current palette.

@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"regexp"
 
-	"gohan/src/palettes"
+	"codeberg.org/roro/gohan/src/palettes"
 )
 
 var hexRegex = regexp.MustCompile(`(?i)[0-9a-f]{6}`)

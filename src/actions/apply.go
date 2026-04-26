@@ -6,10 +6,10 @@ package actions
 import (
 	"fmt"
 
-	"gohan/src/config"
-	"gohan/src/env"
-	"gohan/src/palettes"
-	"gohan/src/templating"
+	"codeberg.org/roro/gohan/src/config"
+	"codeberg.org/roro/gohan/src/env"
+	"codeberg.org/roro/gohan/src/palettes"
+	"codeberg.org/roro/gohan/src/templating"
 )
 
 // Apply applies a palette to all configured targets.

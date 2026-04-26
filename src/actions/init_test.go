@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"gohan/src/env"
+	"codeberg.org/roro/gohan/src/env"
 )
 
 func TestInit_Success(t *testing.T) {

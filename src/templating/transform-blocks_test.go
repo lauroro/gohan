@@ -6,7 +6,7 @@ package templating
 import (
 	"testing"
 
-	"gohan/src/palettes"
+	"codeberg.org/roro/gohan/src/palettes"
 )
 
 func contains(s, substr string) bool {

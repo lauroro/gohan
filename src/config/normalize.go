@@ -4,7 +4,7 @@
 package config
 
 import (
-	"gohan/src/env"
+	"codeberg.org/roro/gohan/src/env"
 	"strings"
 )
 

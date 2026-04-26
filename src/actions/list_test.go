@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"gohan/src/env"
+	"codeberg.org/roro/gohan/src/env"
 )
 
 func writePalette(t *testing.T, dir, name string) {

@@ -4,9 +4,9 @@
 package palettes
 
 import (
+	"codeberg.org/roro/gohan/src/env"
+	"codeberg.org/roro/gohan/src/tools"
 	"fmt"
-	"gohan/src/env"
-	"gohan/src/tools"
 )
 
 // SaveCurrentPalette writes the given palette content to the current palette file.

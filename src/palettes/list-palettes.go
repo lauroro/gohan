@@ -4,8 +4,8 @@
 package palettes
 
 import (
+	"codeberg.org/roro/gohan/src/env"
 	"fmt"
-	"gohan/src/env"
 	"os"
 	"strings"
 )

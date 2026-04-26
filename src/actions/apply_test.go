@@ -4,7 +4,7 @@
 package actions
 
 import (
-	"gohan/src/env"
+	"codeberg.org/roro/gohan/src/env"
 	"os"
 	"path/filepath"
 	"strings"

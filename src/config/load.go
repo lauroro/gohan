@@ -4,8 +4,8 @@
 package config
 
 import (
+	"codeberg.org/roro/gohan/src/env"
 	"fmt"
-	"gohan/src/env"
 )
 
 // LoadConfig loads and prepares the application configuration.

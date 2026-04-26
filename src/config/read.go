@@ -6,7 +6,7 @@ package config
 import (
 	"fmt"
 
-	"gohan/src/tools"
+	"codeberg.org/roro/gohan/src/tools"
 )
 
 // readConfigFile reads gohan config file.

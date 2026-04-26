@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"gohan/src/palettes"
+	"codeberg.org/roro/gohan/src/palettes"
 )
 
 func writeFile(t *testing.T, path, content string) {
