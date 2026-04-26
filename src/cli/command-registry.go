@@ -36,4 +36,14 @@ var commands = []Command{
 			return nil
 		},
 	},
+	{
+		Name:           "init",
+		Description:    "Initialize gohan state",
+		ArgName:        "palette",
+		ArgDescription: "palette name, file name without extension",
+		RequiredArg:    true,
+		Run: func(arg string) error {
+			return actions.Init(arg, env.BuildPaths())
+		},
+	},
 }
