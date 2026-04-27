@@ -37,6 +37,10 @@ func replaceBlocks(original string, blocks []block) (string, error) {
 
 		startIdx += len(startMarker)
 
+		if startIdx < len(full) && full[startIdx] == '\n' {
+			startIdx++
+		}
+
 		result.WriteString(
 			full[:startIdx] +
 				b.Content +
