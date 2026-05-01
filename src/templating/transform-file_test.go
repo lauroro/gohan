@@ -27,6 +27,19 @@ func readFile(t *testing.T, path string) string {
 	return string(b)
 }
 
+func contains(s, substr string) bool {
+	return indexOf(s, substr) >= 0
+}
+
+func indexOf(s, substr string) int {
+	for i := 0; i+len(substr) <= len(s); i++ {
+		if s[i:i+len(substr)] == substr {
+			return i
+		}
+	}
+	return -1
+}
+
 func testPalette() palettes.Palette {
 	return palettes.Palette{
 		Base00: "000000",

@@ -98,3 +98,40 @@ func transformContent(content string, old, new palettes.Palette) (string, error)
 
 	return result.String(), nil
 }
+
+func isValidHexMatch(s string, start, end int) bool {
+	if start > 0 && isHexChar(s[start-1]) {
+		return false
+	}
+	if end < len(s) && isHexChar(s[end]) {
+		if start > 0 && isHexChar(s[start-1]) {
+			return false
+		}
+	}
+	return true
+}
+
+func isHexChar(c byte) bool {
+	return (c >= '0' && c <= '9') ||
+		(c >= 'a' && c <= 'f') ||
+		(c >= 'A' && c <= 'F')
+}
+
+func normalizeHex(h string) string {
+	if len(h) > 0 && h[0] == '#' {
+		h = h[1:]
+	}
+	return lower(h)
+}
+
+func lower(s string) string {
+	out := make([]byte, len(s))
+	for i := range s {
+		c := s[i]
+		if c >= 'A' && c <= 'F' {
+			c += 32
+		}
+		out[i] = c
+	}
+	return string(out)
+}
