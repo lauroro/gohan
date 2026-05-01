@@ -14,9 +14,7 @@ import (
 //
 // It performs the full pipeline:
 // - reads the file from disk
-// - extracts templated blocks
-// - transforms their content using the provided palettes
-// - rebuilds the file preserving markers and surrounding content
+// - transforms it using the provided palettes
 // - writes the result back to disk
 //
 // It returns an error if any step of the process fails.
@@ -26,14 +24,7 @@ func TransformFile(target string, old, new palettes.Palette) error {
 		return fmt.Errorf("could not transform target %s: %w", target, err)
 	}
 
-	blocks := extractBlocks(content)
-
-	blocks, err = transformBlocks(blocks, old, new)
-	if err != nil {
-		return fmt.Errorf("could not transform target %s: %w", target, err)
-	}
-
-	newContent, err := replaceBlocks(content, blocks)
+	newContent, err := transformContent(content, old, new)
 	if err != nil {
 		return fmt.Errorf("could not transform target %s: %w", target, err)
 	}
