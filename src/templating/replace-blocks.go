@@ -35,22 +35,25 @@ func replaceBlocks(original string, blocks []block) (string, error) {
 			return "", fmt.Errorf("invalid block markers")
 		}
 
-		startIdx += len(startMarker)
+		startEnd := startIdx + len(startMarker)
 
-		if startIdx < len(full) && full[startIdx] == '\n' {
-			startIdx++
+		result.WriteString(full[:startEnd])
+
+		if startEnd < len(full) && full[startEnd] == '\n' {
+			result.WriteByte('\n')
 		}
 
-		result.WriteString(
-			full[:startIdx] +
-				b.Content +
-				full[endIdx:],
-		)
+		result.WriteString(b.Content)
+
+		if len(b.Content) > 0 && b.Content[len(b.Content)-1] != '\n' {
+			result.WriteByte('\n')
+		}
+
+		result.WriteString(full[endIdx:])
 
 		last = b.End
 	}
 
 	result.WriteString(original[last:])
-
 	return result.String(), nil
 }

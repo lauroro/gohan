@@ -7,11 +7,6 @@ import (
 	"strings"
 )
 
-const (
-	startMarker = "@gohan:start"
-	endMarker   = "@gohan:end"
-)
-
 // extractBlocks scans the input content and extracts all @gohan template blocks.
 //
 // A block is defined as any section starting with a line containing
@@ -29,53 +24,45 @@ const (
 func extractBlocks(content string) []block {
 	var blocks []block
 
-	lines := strings.Split(content, "\n")
+	offset := 0
 
-	var (
-		inBlock   bool
-		startByte int
-		cursor    int
-		buffer    strings.Builder
-	)
+	for {
+		start := strings.Index(content[offset:], startMarker)
+		if start == -1 {
+			break
+		}
+		start += offset
 
-	for _, line := range lines {
-		lineLen := len(line) + 1
+		startLineEnd := strings.Index(content[start:], "\n")
+		if startLineEnd == -1 {
+			break
+		}
+		startLineEnd += start + 1
 
-		if !inBlock {
-			if strings.Contains(line, startMarker) {
-				inBlock = true
+		end := strings.Index(content[startLineEnd:], endMarker)
+		if end == -1 {
+			break
+		}
+		end += startLineEnd
 
-				startOffset := strings.Index(line, startMarker)
-				startByte = cursor + startOffset
-				buffer.Reset()
-			}
+		endLineStart := strings.LastIndex(content[:end], "\n")
+		if endLineStart == -1 {
+			endLineStart = 0
 		} else {
-			if strings.Contains(line, endMarker) {
-				endOffset := strings.Index(line, endMarker)
-				endByte := cursor + endOffset + len(endMarker)
-
-				content := buffer.String()
-
-				if len(strings.TrimSpace(content)) > 0 {
-					blocks = append(blocks, block{
-						Start:   startByte,
-						End:     endByte,
-						Content: content,
-					})
-				}
-
-				inBlock = false
-				buffer.Reset()
-
-				cursor += lineLen
-				continue
-			}
-
-			buffer.WriteString(line)
-			buffer.WriteByte('\n')
+			endLineStart += 1
 		}
 
-		cursor += lineLen
+		inner := content[startLineEnd:endLineStart]
+
+		if len(strings.TrimSpace(inner)) > 0 {
+			blocks = append(blocks, block{
+				Start:   start,
+				End:     end + len(endMarker),
+				Content: inner,
+			})
+		}
+
+		offset = end + len(endMarker)
 	}
 
 	return blocks

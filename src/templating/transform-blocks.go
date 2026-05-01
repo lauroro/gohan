@@ -4,13 +4,9 @@
 package templating
 
 import (
-	"fmt"
-	"regexp"
-
 	"codeberg.org/roro/gohan/src/palettes"
+	"fmt"
 )
-
-var hexRegex = regexp.MustCompile(`(?i)[0-9a-f]{6}`)
 
 // transformBlocks applies a palette transformation to a set of blocks.
 //
