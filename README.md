@@ -1,4 +1,3 @@
-
 # gohan
 A CLI tool to handle base16-powered Linux ricing.
 
@@ -32,6 +31,8 @@ blue: #83a598
 
 gohan identifies blocks marked by `@gohan:start` and `@gohan:end`, maps the existing colors to their base16 equvalents, and replaces them using the selected palette.
 
+## Demo
+[![Demo](./assets/screenshot.png)](./assets/gohan_demo.webm)
 
 ## Installation
 
