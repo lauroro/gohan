@@ -248,3 +248,7 @@ Thank you!
 
 ## License
 Licensed under the GNU GPL-3.0-or-later.
+
+---
+
+Made with ❤️ and neovim.
