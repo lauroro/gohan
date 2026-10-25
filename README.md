@@ -78,11 +78,8 @@ Example structure:
     └── dracula.yaml
 ```
 
-### Config file
-`config.yaml` must contain:
--   a list of `targets` (files to process)
--   optionally, a list of `commands` (executed after processing)
-    
+### Configuration file
+`config.yaml` must contain a list of `targets` (files to process). It may also include a list of `commands` to run after processing and an optional `features` section.
 
 Example:
 ```
@@ -93,9 +90,15 @@ targets:
 commands:
   - pkill -USR1 alacritty
   - notify-send "Theme applied"
+
+features:
+  gtk_auto_colorscheme: true
 ```
 
+The `features` section is optional. All feature options default to `false` when omitted.
 
+Currently supported features:
+- `gtk_auto_colorscheme`: When enabled, gohan automatically sets gtk setting `color-scheme` to `prefer-dark` or `prefer-light`, based on the newly applied palette.
 
 ### Palettes
 The `palettes/` directory contains your palette files.
