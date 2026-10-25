@@ -6,7 +6,7 @@ package palettes
 import (
 	"fmt"
 
-	"codeberg.org/roro/gohan/src/tools"
+	"github.com/lauroro/gohan/src/tools"
 )
 
 // readPaletteFile reads a palette file from the given path.

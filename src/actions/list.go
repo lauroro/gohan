@@ -4,9 +4,9 @@
 package actions
 
 import (
-	"codeberg.org/roro/gohan/src/env"
-	"codeberg.org/roro/gohan/src/palettes"
 	"fmt"
+	"github.com/lauroro/gohan/src/env"
+	"github.com/lauroro/gohan/src/palettes"
 )
 
 // List returns all available palettes from the palettes directory.

@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"os"
 
-	"codeberg.org/roro/gohan/src/cli"
+	"github.com/lauroro/gohan/src/cli"
 )
 
 func main() {

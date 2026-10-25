@@ -4,9 +4,9 @@
 package cli
 
 import (
-	"codeberg.org/roro/gohan/src/actions"
-	"codeberg.org/roro/gohan/src/env"
 	"fmt"
+	"github.com/lauroro/gohan/src/actions"
+	"github.com/lauroro/gohan/src/env"
 )
 
 var commands = []Command{

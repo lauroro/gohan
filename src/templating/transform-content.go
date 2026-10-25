@@ -8,7 +8,7 @@ import (
 	"regexp"
 	"strings"
 
-	"codeberg.org/roro/gohan/src/palettes"
+	"github.com/lauroro/gohan/src/palettes"
 )
 
 const (

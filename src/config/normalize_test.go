@@ -6,7 +6,7 @@ package config
 import (
 	"testing"
 
-	"codeberg.org/roro/gohan/src/env"
+	"github.com/lauroro/gohan/src/env"
 )
 
 func TestNormalizeConfig_ReplacesHome(t *testing.T) {

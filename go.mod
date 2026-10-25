@@ -1,4 +1,4 @@
-module codeberg.org/roro/gohan
+module github.com/lauroro/gohan
 
 go 1.26.1
 

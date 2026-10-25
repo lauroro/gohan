@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"path/filepath"
 
-	"codeberg.org/roro/gohan/src/env"
+	"github.com/lauroro/gohan/src/env"
 )
 
 // loadPaletteFromContent applies the full parsing pipeline to raw YAML content.

@@ -7,7 +7,7 @@ import (
 	"strings"
 	"testing"
 
-	"codeberg.org/roro/gohan/src/palettes"
+	"github.com/lauroro/gohan/src/palettes"
 )
 
 var old = palettes.Palette{

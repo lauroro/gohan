@@ -6,8 +6,8 @@ package templating
 import (
 	"fmt"
 
-	"codeberg.org/roro/gohan/src/palettes"
-	"codeberg.org/roro/gohan/src/tools"
+	"github.com/lauroro/gohan/src/palettes"
+	"github.com/lauroro/gohan/src/tools"
 )
 
 // TransformFile applies a palette transformation to a target file.

@@ -41,7 +41,7 @@ Make sure you have Git and Go installed.
 Assuming `~/.local/bin` is in your PATH:
 
 ```
-git clone https://codeberg.org/roro/gohan
+git clone https://github.com/lauroro/gohan
 cd gohan
 go build -o gohan ./src/main
 mv ./gohan ~/.local/bin/
