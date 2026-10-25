@@ -8,8 +8,9 @@ import "fmt"
 // validateConfig checks that a Config struct is valid.
 //
 // Rules:
-// - Targets must be a non-empty slice of non-empty strings
-// - Commands is optional, but if present must contain only non-empty strings
+// - Targets must be a non-empty slice of non-empty strings.
+// - Commands is optional, but if present must contain only non-empty strings.
+// - Features is optional; its boolean fields accept both true and false.
 func validateConfig(c Config) error {
 	if len(c.Targets) == 0 {
 		return fmt.Errorf("invalid config: targets must not be empty")

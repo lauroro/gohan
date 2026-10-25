@@ -17,8 +17,10 @@ import (
 // It performs the following steps:
 // - loads the current palette
 // - loads the new palette by name
+// - define the color mode (dark/light)
 // - loads the configuration file
 // - transforms all target files
+// - applies enabled features
 // - executes configured commands
 //
 // It returns an error if any step fails.
@@ -33,6 +35,8 @@ func Apply(paletteName string, paths env.Paths) error {
 		return fmt.Errorf("apply: %w", err)
 	}
 
+	colorMode := palettes.GetColorMode(newPalette)
+
 	cfg, err := config.LoadConfig(paths)
 	if err != nil {
 		return fmt.Errorf("apply: %w", err)
@@ -45,6 +49,10 @@ func Apply(paletteName string, paths env.Paths) error {
 	}
 
 	if err := palettes.SaveCurrentPalette(newPaletteRaw, paths); err != nil {
+		return fmt.Errorf("apply: %w", err)
+	}
+
+	if err := config.ApplyFeatures(cfg, colorMode); err != nil {
 		return fmt.Errorf("apply: %w", err)
 	}
 

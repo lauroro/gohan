@@ -13,9 +13,7 @@ func validConfig() Config {
 }
 
 func TestValidateConfig_Valid(t *testing.T) {
-	c := validConfig()
-
-	if err := validateConfig(c); err != nil {
+	if err := validateConfig(validConfig()); err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
 }
@@ -25,9 +23,7 @@ func TestValidateConfig_EmptyTargets(t *testing.T) {
 		Targets: []string{},
 	}
 
-	err := validateConfig(c)
-
-	if err == nil {
+	if err := validateConfig(c); err == nil {
 		t.Fatal("expected error but got nil")
 	}
 }
@@ -37,9 +33,7 @@ func TestValidateConfig_EmptyTargetValue(t *testing.T) {
 		Targets: []string{"ok", ""},
 	}
 
-	err := validateConfig(c)
-
-	if err == nil {
+	if err := validateConfig(c); err == nil {
 		t.Fatal("expected error but got nil")
 	}
 }
@@ -50,9 +44,7 @@ func TestValidateConfig_EmptyCommandValue(t *testing.T) {
 		Commands: []string{"cmd", ""},
 	}
 
-	err := validateConfig(c)
-
-	if err == nil {
+	if err := validateConfig(c); err == nil {
 		t.Fatal("expected error but got nil")
 	}
 }
@@ -60,6 +52,33 @@ func TestValidateConfig_EmptyCommandValue(t *testing.T) {
 func TestValidateConfig_NoCommands(t *testing.T) {
 	c := Config{
 		Targets: []string{"ok"},
+	}
+
+	if err := validateConfig(c); err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+}
+
+func TestValidateConfig_FeaturesEnabled(t *testing.T) {
+	c := Config{
+		Targets: []string{"ok"},
+		Features: Features{
+			GTKAutoColorScheme: true,
+		},
+	}
+
+	if err := validateConfig(c); err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+}
+
+func TestValidateConfig_FeaturesDisabledByDefault(t *testing.T) {
+	c := Config{
+		Targets: []string{"ok"},
+	}
+
+	if c.Features.GTKAutoColorScheme {
+		t.Fatal("expected gtk_auto_colorscheme to default to false")
 	}
 
 	if err := validateConfig(c); err != nil {
