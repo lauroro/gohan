@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2026 roro
+// SPDX-FileCopyrightText: 2026 lauroro
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 package config
