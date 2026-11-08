@@ -9,11 +9,11 @@ import (
 )
 
 // GetColorMode classifies a palette as "dark" or "light" based on the
-// average relative luminance of its Base00, Base01, Base02 and Base04 colors.
+// average relative luminance of its Base00, Base01 and Base02 colors.
 // It return "dark" when the average is below 0.5, and "light" otherwise.
 func GetColorMode(p Palette) string {
 	colors := []string{
-		p.Base00, p.Base01, p.Base02, p.Base03,
+		p.Base00, p.Base01, p.Base02,
 	}
 
 	var total float64
