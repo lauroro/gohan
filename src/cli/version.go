@@ -6,5 +6,5 @@ package cli
 import "fmt"
 
 func version() {
-	fmt.Println("v1.2.1")
+	fmt.Println("v1.2.2")
 }
